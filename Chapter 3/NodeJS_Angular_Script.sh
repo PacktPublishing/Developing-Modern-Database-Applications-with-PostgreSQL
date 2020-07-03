@@ -9,7 +9,6 @@ Please enter 'y' for yes when asked
 
 [root@ip-172-31-95-213 src]# curl -sL https://rpm.nodesource.com/setup_10.x | sudo -E bash 
 
-
 [root@ip-172-31-95-213 src]# yum install nodejs 
 Please enter 'y' for yes when asked 
 
