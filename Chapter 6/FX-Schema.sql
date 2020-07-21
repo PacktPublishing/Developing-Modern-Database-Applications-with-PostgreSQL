@@ -12,5 +12,5 @@ CREATE TABLE "ExchangeRates"
     lowestrate double precision,
     closingrate double precision,
     currencycode character varying(3),
-	PRIMARY KEY ("time", currencycode)
+    PRIMARY KEY ("time", currencycode)
 )
