@@ -12,5 +12,5 @@ CREATE TABLE "ExchangeRates"
     lowestrate double precision,
     closingrate double precision,
     currencycode character varying(3) REFERENCES public."Currencies" (currencycode) ON DELETE CASCADE,
-	PRIMARY KEY ("time", currencycode)
+    PRIMARY KEY ("time", currencycode)
 );
