@@ -1,0 +1,45 @@
+- name: PostgreSQL Data Playbook
+  hosts: postgres
+  become: yes
+  tasks:
+  - name: install prerequisites
+    apt: name={{ item }} update_cache=yes state=present
+    with_items:
+      - python-psycopg2
+      - python-ipaddress
+  - name: Grant user postgres md5
+    postgresql_pg_hba:
+      dest: /etc/postgresql/12/main/pg_hba.conf
+      contype: local
+      users: postgres
+      databases: atm
+      method: trust
+      create: true
+  - name: Stop service postgresql, if running
+    service:
+      name: postgresql
+      state: stopped
+  - name: Start service postgresql, if not running
+    service:
+      name: postgresql
+      state: started
+  - name: download atm table definition
+    get_url:
+      url=https://github.com/lequanha/PostgreSQL-12-Development-and-Administration-Projects/blob/master/Chapter%202/atmdefs.sql?raw=true
+      dest=/tmp/atmdefs.sql
+  - name: Run queries from atm definition SQL script
+    postgresql_query:
+      db: atm
+      path_to_script: /tmp/atmdefs.sql
+      positional_args:
+      - 1
+  - name: download atm table data insertions
+    get_url:
+      url=https://github.com/lequanha/PostgreSQL-12-Development-and-Administration-Projects/blob/master/Chapter%202/atmlocations.sql?raw=true
+      dest=/tmp/atmlocations.sql
+  - name: Run queries from atm data SQL script
+    postgresql_query:
+      db: atm
+      path_to_script: /tmp/atmlocations.sql
+      positional_args:
+      - 1
