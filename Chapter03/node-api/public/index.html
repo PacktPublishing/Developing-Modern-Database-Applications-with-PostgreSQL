@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html ng-app="nodeATM">
+<head>
+    <title>ATM App - with Node + Express + Angular + PostgreSQL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen">
+</head>
+<body ng-controller="mainController">
+<div class="container">
+    <div class="header">
+        <h1>ATM App</h1>
+        <hr>
+        <h1 class="lead">Node + Express + Angular + PostgreSQL</h1>
+    </div>
+
+    <div class="atm-form">
+        <form>
+          <div class="form-group">
+            <input type="text" class="form-control input-lg" placeholder="Enter Bank Name..." ng-model="formData.BankName" style="width: 600px;margin-bottom: 10px;">
+			<input type="text" class="form-control input-lg" placeholder="Enter Address..." ng-model="formData.Address" style="width:600px;margin-bottom: 10px;">
+			<input type="text" class="form-control input-lg" placeholder="Enter County..." ng-model="formData.County" style="width:300px;margin-bottom: 10px;">
+			<input type="text" class="form-control input-lg" placeholder="Enter City..." ng-model="formData.City" style="width:300px;margin-bottom: 10px;">
+			<input type="text" class="form-control input-lg" placeholder="Enter State..." ng-model="formData.State" style="width:100px;margin-bottom: 10px;">
+			<input type="text" class="form-control input-lg" placeholder="Enter ZipCode..." ng-model="formData.ZipCode" style="width:200px;margin-bottom: 10px;">
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="createATM()" style="width:300px;margin-bottom: 10px;">Add ATM</button>
+        </form>
+    </div>
+
+    <br>
+
+    <ul ng-repeat="atm in atmData">
+        <li><h3><input class="lead" type="checkbox" ng-click="deleteATM(atm.ID)">{{ atm.BankName }}: {{ atm.Address }}, {{ atm.City }}, {{ atm.State }} {{atm.ZipCode }}</h3></li>
+        <hr>
+    </ul>
+</div>
+<script src="http://code.jquery.com/jquery-2.2.4.min.js" type="text/javascript"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.6/angular.min.js"></script>
+<script src="javascripts/app.js"></script>
+</body>
+</html>
+

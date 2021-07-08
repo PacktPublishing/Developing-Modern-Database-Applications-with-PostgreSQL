@@ -1,0 +1,2 @@
+[centos@ip-172-31-95-213 ~]$ export TOKEN="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYXRtX3VzZXIiLCJleHAiOjE1NjY4ODA0OTJ9.Imw7-Mbxejo9SCL0FGfAG0lR166fZ6ujhpEIlqvvlig"
+[centos@ip-172-31-95-213 ~]$ curl http://localhost:3000/ATM%20locations -X POST -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"BankName":"Test Bank 2","Address":"100 Test way","County":"New York","City":"New York","State":"NY","ZipCode":10272}'
