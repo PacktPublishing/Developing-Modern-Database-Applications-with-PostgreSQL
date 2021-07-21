@@ -1,0 +1,196 @@
+PS C:\Windows\system32>
+PS C:\Windows\system32> cd C:\Projects\Vagrant\Jenkins
+PS C:\Projects\Vagrant\Jenkins> vagrant up --provider virtualbox
+PS C:\Projects\Vagrant\Jenkins> vagrant ssh
+vagrant@devopsubuntu1804:~$
+
+vagrant@devopsubuntu1804:~$ wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+vagrant@devopsubuntu1804:~$ echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" |sudo tee /etc/apt/sources.list.d/pgdg.list 
+vagrant@devopsubuntu1804:~$ sudo apt update
+vagrant@devopsubuntu1804:~$ sudo apt -y install postgresql-contrib
+vagrant@devopsubuntu1804:~$ pgbench -V
+pgbench (PostgreSQL) 12.2 (Ubuntu 12.2-2.pgdg18.04+1)
+
+vagrant@devopsubuntu1804:~$ pgbench -i -h atm.ck5074bwbilj.useast-1.rds.amazonaws.com -p 5432 -s 10 -U dba -d atm
+Password: (please enter the RDS password = bookdemo)
+dropping old tables...
+NOTICE: table "pgbench_accounts" does not exist, skipping
+NOTICE: table "pgbench_branches" does not exist, skipping
+NOTICE: table "pgbench_history" does not exist, skipping
+NOTICE: table "pgbench_tellers" does not exist, skipping
+creating tables...
+generating data...
+100000 of 1000000 tuples (10%) done (elapsed 1.93 s, remaining 17.34 s)
+200000 of 1000000 tuples (20%) done (elapsed 4.27 s, remaining 17.09 s)
+300000 of 1000000 tuples (30%) done (elapsed 6.82 s, remaining 15.91 s)
+400000 of 1000000 tuples (40%) done (elapsed 9.46 s, remaining 14.19 s)
+500000 of 1000000 tuples (50%) done (elapsed 12.12 s, remaining 12.12 s)
+600000 of 1000000 tuples (60%) done (elapsed 14.49 s, remaining 9.66 s)
+700000 of 1000000 tuples (70%) done (elapsed 17.13 s, remaining 7.34 s)
+800000 of 1000000 tuples (80%) done (elapsed 19.80 s, remaining 4.95 s)
+900000 of 1000000 tuples (90%) done (elapsed 22.16 s, remaining 2.46 s)
+1000000 of 1000000 tuples (100%) done (elapsed 24.83 s, remaining 0.00 s)
+vacuuming...
+creating primary keys...
+done.
+
+vagrant@devopsubuntu1804:~$ pgbench -h atm.ck5074bwbilj.useast-1.rds.amazonaws.com -U dba -c 50 -j 2 -t 100 -d atm
+pghost: atm.ck5074bwbilj.us-east-1.rds.amazonaws.com pgport:
+nclients: 50 nxacts: 100 dbName: atm
+Password: (please enter the RDS password = bookdemo)
+...
+...
+client 49 executing script "<builtin: TPC-B (sort of)>"
+client 49 executing \set aid
+client 49 executing \set bid
+client 49 executing \set tid
+client 49 executing \set delta
+client 49 sending BEGIN;
+client 49 receiving
+client 49 receiving
+client 49 sending UPDATE pgbench_accounts SET abalance = abalance + -1345 WHERE aid = 938376;
+client 49 receiving
+client 49 receiving
+client 49 sending SELECT abalance FROM pgbench_accounts WHERE aid = 938376;
+client 49 receiving
+client 49 receiving
+client 49 sending UPDATE pgbench_tellers SET tbalance = tbalance + -1345 WHERE tid = 63;
+client 49 receiving
+client 49 receiving
+client 49 sending UPDATE pgbench_branches SET bbalance = bbalance + -1345 WHERE bid = 1;
+client 49 receiving
+client 49 receiving
+client 49 sending INSERT INTO pgbench_history (tid, bid, aid, delta, mtime) VALUES (63, 1, 938376, -1345, CURRENT_TIMESTAMP);
+client 49 receiving
+client 49 receiving
+client 49 sending END;
+client 49 receiving
+client 49 receiving
+transaction type: <builtin: TPC-B (sort of)>
+scaling factor: 10
+query mode: simple
+number of clients: 50
+number of threads: 2
+number of transactions per client: 100
+number of transactions actually processed: 5000/5000
+latency average = 1008.361 ms
+tps = 49.585429 (including connections establishing)
+tps = 49.797092 (excluding connections establishing)
+
+vagrant@devopsubuntu1804:~$ pgbench -h atm.ck5074bwbilj.useast-1.rds.amazonaws.com -U dba -c 150 -j 2 -t 100 -d atm
+pghost: atm.ck5074bwbilj.us-east-1.rds.amazonaws.com pgport:
+nclients: 150 nxacts: 100 dbName: atm
+Password: (please enter the RDS password = bookdemo)
+starting vacuum...end.
+connection to database "atm" failed:
+FATAL: remaining connection slots are reserved for non-replication
+superuser connections
+...
+...
+client 37 executing script "<builtin: TPC-B (sort of)>"
+client 37 executing \set aid
+client 37 executing \set bid
+client 37 executing \set tid
+client 37 executing \set delta
+client 37 sending BEGIN;
+client 37 receiving
+client 37 receiving
+client 37 sending UPDATE pgbench_accounts SET abalance = abalance + 4605 WHERE aid = 560242;
+client 37 receiving
+client 37 receiving
+client 37 sending SELECT abalance FROM pgbench_accounts WHERE aid = 560242;
+client 37 receiving
+client 37 receiving
+client 37 sending UPDATE pgbench_tellers SET tbalance = tbalance + 4605 WHERE tid = 20;
+client 37 receiving
+client 37 receiving
+client 37 sending UPDATE pgbench_branches SET bbalance = bbalance + 4605 WHERE bid = 7;
+client 37 receiving
+client 37 receiving
+client 37 sending INSERT INTO pgbench_history (tid, bid, aid, delta, mtime) VALUES (20, 7, 560242, 4605, CURRENT_TIMESTAMP);
+client 37 receiving
+client 37 receiving
+client 37 sending END;
+client 37 receiving
+client 37 receiving
+transaction type: <builtin: TPC-B (sort of)>
+scaling factor: 10
+query mode: simple
+number of clients: 150
+number of threads: 2
+number of transactions per client: 100
+number of transactions actually processed: 7500/15000
+latency average = 3138.897 ms
+tps = 47.787488 (including connections establishing)
+tps = 47.853332 (excluding connections establishing)
+
+vagrant@devopsubuntu1804:~$ sudo apt update
+vagrant@devopsubuntu1804:~$ echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
+vagrant@devopsubuntu1804:~$ wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+vagrant@devopsubuntu1804:~$ sudo apt update
+vagrant@devopsubuntu1804:~$ sudo apt install -y pgbouncer
+
+vagrant@devopsubuntu1804:~$ sudo nano /etc/pgbouncer/pgbouncer.ini
+---------------------------------------------------------------------
+[databases]
+atm = host=atm.ck5074bwbilj.us-east-1.rds.amazonaws.com port=5432
+dbname=atm
+[pgbouncer]
+listen_addr = *
+listen_port = 6432
+auth_type = trust
+auth_file = /etc/pgbouncer/userlist.txt
+pool_mode = transaction
+max_client_conn = 200
+max_db_connections = 70
+server_reset_query =
+---------------------------------------------------------------------
+
+vagrant@devopsubuntu1804:~$ sudo nano /etc/pgbouncer/userlist.txt
+---------------------------------------------------------------------
+"dba" "bookdemo"
+---------------------------------------------------------------------
+
+vagrant@devopsubuntu1804:~$ sudo systemctl stop pgbouncer
+vagrant@devopsubuntu1804:~$ sudo systemctl start pgbouncer
+
+vagrant@devopsubuntu1804:~$ sudo psql --dbname=atm --port=6432 --username=dba
+psql (12.2 (Ubuntu 12.2-2.pgdg18.04+1))
+Type "help" for help.
+atm=> SELECT * FROM public."ATM locations" LIMIT 10;
+
+vagrant@devopsubuntu1804:~$ pgbench -h atm.ck5074bwbilj.useast-1.rds.amazonaws.com -p 5432 -U dba -c 150 -j 2 -t 100 -d atm
+pghost: localhost pgport: 6432 nclients: 150 nxacts: 100 dbName:atm
+...
+...
+client 147 sending UPDATE pgbench_branches SET bbalance = bbalance + -4201 WHERE bid = 2;
+client 147 receiving
+client 148 receiving
+client 110 receiving
+client 110 sending INSERT INTO pgbench_history (tid, bid, aid, delta, mtime) VALUES (29, 6, 647981, 3295, CURRENT_TIMESTAMP);
+client 110 receiving
+client 134 receiving
+client 147 receiving
+client 147 sending INSERT INTO pgbench_history (tid, bid, aid, delta, mtime) VALUES (62, 2, 543082, -4201, CURRENT_TIMESTAMP);
+client 147 receiving
+client 110 receiving
+client 110 sending END;
+client 110 receiving
+client 147 receiving
+client 147 sending END;
+client 147 receiving
+client 110 receiving
+client 147 receiving
+transaction type: <builtin: TPC-B (sort of)>
+scaling factor: 10
+query mode: simple
+number of clients: 150
+number of threads: 2
+number of transactions per client: 100
+number of transactions actually processed: 15000/15000
+latency average = 7540.436 ms
+tps = 19.892748 (including connections establishing)
+tps = 19.892775 (excluding connections establishing)
+
+
+
