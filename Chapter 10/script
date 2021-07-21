@@ -12,7 +12,7 @@ vagrant@devopsubuntu1804:~$ pgbench -V
 pgbench (PostgreSQL) 12.2 (Ubuntu 12.2-2.pgdg18.04+1)
 
 vagrant@devopsubuntu1804:~$ pgbench -i -h atm.ck5074bwbilj.useast-1.rds.amazonaws.com -p 5432 -s 10 -U dba -d atm
-Password: (please enter the RDS password = bookdemo)
+Password: (please enter the RDS password = ......)
 dropping old tables...
 NOTICE: table "pgbench_accounts" does not exist, skipping
 NOTICE: table "pgbench_branches" does not exist, skipping
@@ -37,7 +37,7 @@ done.
 vagrant@devopsubuntu1804:~$ pgbench -h atm.ck5074bwbilj.useast-1.rds.amazonaws.com -U dba -c 50 -j 2 -t 100 -d atm
 pghost: atm.ck5074bwbilj.us-east-1.rds.amazonaws.com pgport:
 nclients: 50 nxacts: 100 dbName: atm
-Password: (please enter the RDS password = bookdemo)
+Password: (please enter the RDS password = ......)
 ...
 ...
 client 49 executing script "<builtin: TPC-B (sort of)>"
@@ -80,7 +80,7 @@ tps = 49.797092 (excluding connections establishing)
 vagrant@devopsubuntu1804:~$ pgbench -h atm.ck5074bwbilj.useast-1.rds.amazonaws.com -U dba -c 150 -j 2 -t 100 -d atm
 pghost: atm.ck5074bwbilj.us-east-1.rds.amazonaws.com pgport:
 nclients: 150 nxacts: 100 dbName: atm
-Password: (please enter the RDS password = bookdemo)
+Password: (please enter the RDS password = ......)
 starting vacuum...end.
 connection to database "atm" failed:
 FATAL: remaining connection slots are reserved for non-replication
